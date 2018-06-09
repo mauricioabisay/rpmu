@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin/research', 'ResearchController@index');
+
+Route::get('/admin/research/create', 'ResearchController@create');
