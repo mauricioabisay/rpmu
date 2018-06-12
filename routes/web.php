@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/research', 'ResearchController@index');
+Route::resource('researches', 'ResearchController');
 
-Route::get('/admin/research/create', 'ResearchController@create');
+Route::resource('subjects', 'SubjectController');
+
+Route::resources([
+	'faculties' => 'FacultyController',
+	'degrees' => 'DegreeController'
+]);
