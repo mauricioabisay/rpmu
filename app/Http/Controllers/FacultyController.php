@@ -14,7 +14,9 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        //
+        $faculties = Faculty::all();
+
+        return view('faculty.list', compact('faculties'));
     }
 
     /**
@@ -24,7 +26,7 @@ class FacultyController extends Controller
      */
     public function create()
     {
-        //
+        return view('faculty.create');
     }
 
     /**
@@ -35,7 +37,19 @@ class FacultyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255'
+        ]);
+        
+        $faculty = new Faculty;
+
+        $faculty->title = $request->title;
+        $faculty->slug = str_slug( $request->title );
+
+        $faculty->save();
+
+        return redirect('/faculties');
+
     }
 
     /**
@@ -57,7 +71,7 @@ class FacultyController extends Controller
      */
     public function edit(Faculty $faculty)
     {
-        //
+        return view('faculty.edit', compact('faculty'));
     }
 
     /**
@@ -69,7 +83,14 @@ class FacultyController extends Controller
      */
     public function update(Request $request, Faculty $faculty)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255'
+        ]);
+
+        $faculty->title = $request->title;
+        $faculty->save();
+
+        return redirect('/faculties');
     }
 
     /**
@@ -80,6 +101,8 @@ class FacultyController extends Controller
      */
     public function destroy(Faculty $faculty)
     {
-        //
+        $faculty->delete();
+
+        return redirect('/faculties');
     }
 }
