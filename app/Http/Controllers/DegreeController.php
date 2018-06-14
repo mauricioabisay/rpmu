@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Degree;
+use App\Faculty;
 use Illuminate\Http\Request;
 
 class DegreeController extends Controller
 {
+
+    public $faculties;
+
+    function __construct()
+    {
+        
+        $this->faculties = Faculty::all();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,15 @@ class DegreeController extends Controller
      */
     public function index()
     {
-        //
+        $degrees = Degree::all();
+
+        return view(
+            'degree.list', 
+            array(
+                'degrees' => $degrees, 
+                'faculties' => $this->faculties
+            )
+        );
     }
 
     /**
@@ -24,7 +41,12 @@ class DegreeController extends Controller
      */
     public function create()
     {
-        //
+        return view(
+            'degree.create',
+            array(
+                'faculties' => $this->faculties
+            )
+        );
     }
 
     /**
@@ -35,7 +57,15 @@ class DegreeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $degree = new Degree;
+
+        $degree->title = $request->title;
+        $degree->slug = str_slug( $request->title );
+        $degree->faculty_slug = $request->faculty_slug;
+
+        $degree->save();
+
+        return redirect('/degrees');
     }
 
     /**
@@ -57,7 +87,13 @@ class DegreeController extends Controller
      */
     public function edit(Degree $degree)
     {
-        //
+        return view(
+            'degree.edit', 
+            array(
+                'degree' => $degree,
+                'faculties' => $this->faculties
+            )
+        );
     }
 
     /**
@@ -69,7 +105,12 @@ class DegreeController extends Controller
      */
     public function update(Request $request, Degree $degree)
     {
-        //
+        $degree->title = $request->title;
+        $degree->faculty_slug = $request->faculty_slug;
+
+        $degree->save();
+
+        return redirect('/degrees');
     }
 
     /**
@@ -80,6 +121,8 @@ class DegreeController extends Controller
      */
     public function destroy(Degree $degree)
     {
-        //
+        $degree->delete();
+
+        return redirect('/degrees');
     }
 }
