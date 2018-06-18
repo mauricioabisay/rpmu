@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Degree;
 use App\Participant;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class ParticipantController extends Controller
      */
     public function index()
     {
-        //
+        $participants = Participant::all();
+
+        return view('participant.list', compact('participants'));
     }
 
     /**
@@ -24,7 +27,8 @@ class ParticipantController extends Controller
      */
     public function create()
     {
-        //
+        $degrees = Degree::all();
+        return view('participant.create', compact('degrees'));
     }
 
     /**
@@ -35,7 +39,17 @@ class ParticipantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $participant = new Participant;
+
+        $participant->id = $request->id;
+        $participant->name = $request->name;
+        $participant->bio = $request->bio;
+        $participant->link = $request->link;
+        $participant->degree_slug = $request->degree_slug;
+
+        $participant->save();
+
+        return redirect('/participants');
     }
 
     /**
@@ -57,7 +71,13 @@ class ParticipantController extends Controller
      */
     public function edit(Participant $participant)
     {
-        //
+        return view(
+            'participant.edit', 
+            array(
+                'participant' => $participant,
+                'degrees' => Degree::all()
+            )
+        );
     }
 
     /**
@@ -69,7 +89,16 @@ class ParticipantController extends Controller
      */
     public function update(Request $request, Participant $participant)
     {
-        //
+        $participant->id = $request->id;
+        $participant->name = $request->name;
+        $participant->bio = $request->bio;
+        $participant->link = $request->link;
+        $participant->degree_slug = $request->degree_slug;
+
+        $participant->save();
+
+        return redirect('/participants');
+
     }
 
     /**

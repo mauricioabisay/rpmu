@@ -3,7 +3,7 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Subject::class, function (Faker $faker) {
-    return [
-        //
-    ];
+    	$title = $faker->sentence(5);
+    	$slug = str_slug($title); 
+        return compact('title', 'slug');
 });

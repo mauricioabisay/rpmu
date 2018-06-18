@@ -20,6 +20,39 @@
 		.rpm-row-options form, .rpm-row-options .btn {
 			display: inline-block;
 		}
+		.rpm-research-table .created {
+			color: lightgreen;
+		}
+		.rpm-research-table .started {
+			color: palegreen;
+		}
+		.rpm-research-table .completed {
+			color: darkseagreen;
+		}
+
+		.rpm-api-list {
+			background: lightgray;
+			list-style: none;
+		}
+		.rpm-api-list li {
+			cursor: pointer;
+			padding: 0.25em 0em;
+		}
+		.rpm-api-list li:first-child {
+			padding-top: 1em;
+		}
+		.rpm-api-list li:last-child {
+			padding-bottom: 1em;
+		}
+
+		.rpm-api-cloud .rpm-badge {
+			margin: 0.25em;
+		}
+		.rpm-api-cloud .rpm-badge span:after {
+			content: '\03a7';
+			margin-left: 0.5em;
+			font-weight: bolder;
+		}
 	</style>
 </head>
 <body>
@@ -33,10 +66,10 @@
 	  <div class="collapse navbar-collapse" id="navbar-content">
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">Investigaciones</a>
+	        <a class="nav-link" href="/researches">Investigaciones</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="#">Participantes</a>
+	        <a class="nav-link" href="/participants">Participantes</a>
 	      </li>
 	      
 	      <li class="nav-item dropdown">

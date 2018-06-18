@@ -17,9 +17,20 @@ Route::get('/', function () {
 
 Route::resource('researches', 'ResearchController');
 
-Route::resource('subjects', 'SubjectController');
-
 Route::resources([
+	'subjects' => 'SubjectController',
 	'faculties' => 'FacultyController',
-	'degrees' => 'DegreeController'
+	'degrees' => 'DegreeController',
+	'participants' => 'ParticipantController'
 ]);
+
+
+//For JS
+
+Route::get('api/subjects', function() {
+	return App\Subject::whereRaw("title LIKE '%".request()->get('string')."%'")->get();
+});
+
+Route::get('api/participants', function() {
+	return App\Participant::whereRaw("name LIKE '%".request()->get('string')."%' or id LIKE '".request()->get('string')."%'")->get();
+});
