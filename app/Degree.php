@@ -12,6 +12,11 @@ class Degree extends Model
 
     public function faculty()
     {
-    	return $this->belongsTo('App\faculty');
+    	return $this->belongsTo('App\Faculty');
+    }
+
+    public function students()
+    {
+    	return $this->hasMany('App\Participant');
     }
 }

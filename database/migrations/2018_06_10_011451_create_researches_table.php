@@ -27,7 +27,7 @@ class CreateResearchesTable extends Migration
             $table->longText('description');
             $table->text('extra_info');
             
-            $table->dateTime('completed_at');
+            $table->dateTime('completed_at')->nullable(true);
             $table->timestamps();
         });
     }
