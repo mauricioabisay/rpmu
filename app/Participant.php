@@ -15,6 +15,6 @@ class Participant extends Model
 
     public function degree()
     {
-    	return $this->belongsTo('App\Degree', 'research_participant');
+    	return $this->belongsTo('App\Degree');
     }
 }
