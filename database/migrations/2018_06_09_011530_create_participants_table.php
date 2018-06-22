@@ -23,10 +23,10 @@ class CreateParticipantsTable extends Migration
 
             $table->timestamps();
 
-            $table->string('degree_slug');
-            $table->foreign('degree_slug')
-                ->references('slug')->on('degrees')
-                ->onDelete('cascade');
+            $table->unsignedInteger('user_id')->default(0);
+            $table->string('faculty_slug')->default('');            
+
+            $table->string('degree_slug')->default('');
         });
     }
 

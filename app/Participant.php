@@ -13,6 +13,11 @@ class Participant extends Model
                     ->withTimestamps();
 	}
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function degree()
     {
     	return $this->belongsTo('App\Degree');
