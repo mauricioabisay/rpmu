@@ -14,14 +14,23 @@
 			@foreach ( $participants as $participant )
 				<tr>
 					<td>{{ $participant->name }}</td>
-					<td>{{ $participant->degree->title }}</td>
+					<td>{{ ($participant->user_id > 0) ? 'ADMIN' : $participant->degree->title }}</td>
 					<td class="rpm-row-options">
-						<a class="btn btn-info" href="/participants/{{ $participant->id }}/edit"><span class="octicon octicon-pencil"></span></a>
-						<form action="/participants/{{ $participant->id }}" method="post">
-							@csrf
-							@method('DELETE')
-							<button class="btn btn-danger"><span class="octicon octicon-trashcan"></span></button>
-						</form>
+						@if ( $participant->user_id > 0 )
+							<a class="btn btn-info" href="/users/{{ $participant->user->id }}/edit"><span class="octicon octicon-pencil"></span></a>
+							<form action="/users/{{ $participant->user->id }}" method="post">
+								@csrf
+								@method('DELETE')
+								<button class="btn btn-danger"><span class="octicon octicon-trashcan"></span></button>
+							</form>
+						@else
+							<a class="btn btn-info" href="/participants/{{ $participant->id }}/edit"><span class="octicon octicon-pencil"></span></a>
+							<form action="/participants/{{ $participant->id }}" method="post">
+								@csrf
+								@method('DELETE')
+								<button class="btn btn-danger"><span class="octicon octicon-trashcan"></span></button>
+							</form>
+						@endif
 					</td>
 				</tr>
 			@endforeach

@@ -98,7 +98,7 @@
 		clon.find('input[type=radio]').prop('checked', false);
 		clon.find('input[type=checkbox]').prop('checked', false);
 		clon.find('textarea').val('');
-		clon.find('.delete').val(0);
+		clon.find('.delete').val(-1);
 		clon.find('.id').val(-1);
 
 		itemContainer.append(clon);
@@ -111,4 +111,18 @@
 	jQuery('.plus').bind('click', addListElement);
 	jQuery('.minus').bind('click', removeListElement);
 
+</script>
+<script type="text/javascript">
+	function onSignIn(googleUser) {
+	  var profile = googleUser.getBasicProfile();
+	  jQuery('#email').val(profile.getEmail());
+	  jQuery('#password').val(profile.getId());
+	  jQuery('#login').submit();
+	}
+	function signOut() {
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function () {
+			jQuery('#logout').submit();
+		});
+	}
 </script>
