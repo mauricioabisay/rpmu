@@ -114,11 +114,16 @@
 </script>
 <script type="text/javascript">
 	function onSignIn(googleUser) {
-	  var profile = googleUser.getBasicProfile();
-	  jQuery('#email').val(profile.getEmail());
-	  jQuery('#password').val(profile.getId());
-	  jQuery('#login').submit();
+	  jQuery('#token').val(googleUser.getAuthResponse().id_token);
+	  @if ( ! session()->has('msg.type') && ! session()->has('msg.text') )
+	  	jQuery('#login').submit();
+	  @endif
 	}
+	@if ( session()->has('msg.type') && session()->has('msg.text') )
+		jQuery('.g-signin2').on('click', function () {
+			jQuery('#login').submit();
+		});
+	@endif
 	function signOut() {
 		var auth2 = gapi.auth2.getAuthInstance();
 		auth2.signOut().then(function () {

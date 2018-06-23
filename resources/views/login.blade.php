@@ -6,8 +6,7 @@
 			<div class="g-signin2" data-onsuccess="onSignIn"></div>
 			<form id="login" action="/admin" method="post">
 				@csrf
-				<input type="hidden" name="email" id="email">
-				<input type="hidden" name="password" id="password">
+				<input type="hidden" name="token" id="token">
 			</form>
 		</div>
 	</div>

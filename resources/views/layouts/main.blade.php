@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.css">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="google-signin-client_id" content="360429043220-mose8c9p7uc7bt9v177l179qdikpe9m0.apps.googleusercontent.com">
+	<meta name="google-signin-client_id" content="{{ env('G_CLIENT_ID') }}">
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<style type="text/css">
 		.rpm-badge {
@@ -99,6 +99,11 @@
 	</nav>
 	<div class="g-signin2" data-onsuccess="onSignIn" style="display: none;"></div>
 	<div class="container" style="margin-top:60px">
+		@if ( session()->has('msg.type') && session()->has('msg.text') )
+			<div class="alert {{ session('msg.type') }}">
+				{{ session('msg.text') }}
+			</div>
+		@endif
 		@if ( $errors->any() )
 			<div class="alert alert-danger">
 				<ul>
