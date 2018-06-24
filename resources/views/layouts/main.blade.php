@@ -97,7 +97,6 @@
 			@endif
 		</div>
 	</nav>
-	<div class="g-signin2" data-onsuccess="onSignIn" style="display: none;"></div>
 	<div class="container" style="margin-top:60px">
 		@if ( session()->has('msg.type') && session()->has('msg.text') )
 			<div class="alert {{ session('msg.type') }}">
