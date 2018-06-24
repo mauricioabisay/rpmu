@@ -34,19 +34,26 @@ class HomeController extends Controller
 
     public function login(Request $request) 
     {
-        $user = User::where('email', $request->email)->first();
-        //Update user password, if user is new has no password
-        if ( $user ) {
-            if ( $user->password === '' ) {
-                $user->password = $request->password;
-                $user->save();
-            }
-            if ( $user->password === $request->password ) {
+        $client = new \Google_Client( [ 'client_id' => env('G_CLIENT_ID') ] );
+        //Get user data from token
+        $payload = $client->verifyIdToken($request->token);
+        
+        if ( $payload ) {
+            //Token is valid, user data obtained 
+            $user = User::where('email', $payload['email'])->first();
+            if ( $user ) {
                 Auth::login($user);
                 return redirect('admin');
+            } else {
+                //User has not been registered
+                $request->session()->flash('msg.type', 'warning');
+                $request->session()->flash('msg.text', 'Lo sentimos tus datos de usuario no tienen permiso de acceso, comunícate con el administrador');
             }
+        } else {
+            //Token error
+            $request->session()->flash('msg.type', 'warning');
+            $request->session()->flash('msg.text', 'No se han podido validar tus credenciales de acceso, por favor intenta otra vez. Si el error persiste comunícate con el administrador');
         }
-
         return view('login');
     }
 

@@ -113,16 +113,29 @@
 
 </script>
 <script type="text/javascript">
-	function onSignIn(googleUser) {
-	  var profile = googleUser.getBasicProfile();
-	  jQuery('#email').val(profile.getEmail());
-	  jQuery('#password').val(profile.getId());
-	  jQuery('#login').submit();
-	}
-	function signOut() {
-		var auth2 = gapi.auth2.getAuthInstance();
-		auth2.signOut().then(function () {
-			jQuery('#logout').submit();
-		});
-	}
+	var googleUser = {};
+	  var startApp = function() {
+	    gapi.load('auth2', function(){
+	      // Retrieve the singleton for the GoogleAuth library and set up the client.
+	      auth2 = gapi.auth2.init({
+	        client_id: '{{ env('G_CLIENT_ID') }}',
+	        cookiepolicy: 'single_host_origin',
+	        // Request scopes in addition to 'profile' and 'email'
+	        //scope: 'additional_scope'
+	      });
+	      attachSignin(document.getElementById('g-custom-btn'));
+	    });
+	  };
+
+	  function attachSignin(element) {
+	    console.log(element.id);
+	    auth2.attachClickHandler(element, {},
+	        function(googleUser) {
+	          document.getElementById('token').value = googleUser.getAuthResponse().id_token;
+	          document.getElementById('login').submit();
+	        }, function(error) {
+	          alert(JSON.stringify(error, undefined, 2));
+	        });
+	  }
+	  startApp();
 </script>
