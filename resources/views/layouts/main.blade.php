@@ -54,6 +54,16 @@
 			margin-left: 0.5em;
 			font-weight: bolder;
 		}
+		.login-form {
+			text-align: center;
+		}
+		.g-btn {
+			background: #dd4b39;
+			color: white;
+			margin: 0 auto;
+			text-align: center;
+			font-weight: bold;
+		}
 	</style>
 </head>
 <body>
@@ -67,32 +77,32 @@
 	    <div class="collapse navbar-collapse" id="navbar-content">
 	    <ul class="navbar-nav mr-auto">
 	    	<li class="nav-item">
-	    		<a class="nav-link" href="/researches">Investigaciones</a>
+	    		<a class="nav-link" href="{{ action('ResearchController@index') }}">Investigaciones</a>
 	    	</li>
 	    	<li class="nav-item">
-	    		<a class="nav-link" href="/participants">Participantes</a>
+	    		<a class="nav-link" href="{{ action('ParticipantController@index') }}">Participantes</a>
 	    	</li>
 	    	@if ( Auth::check() )
 	    		<li class="nav-item dropdown">
 	    			<a class="nav-link dropdown-toggle" href="#" id="utilities-menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilidades</a>
 
 	    			<div class="dropdown-menu" aria-labelledby="utilities-menu">
-	    				<a class="dropdown-item" href="/subjects">Temas</a>
-	    				<a class="dropdown-item" href="/degrees">Licenciaturas</a>
-	    				<a class="dropdown-item" href="/faculties">Facultades</a>
+	    				<a class="dropdown-item" href="{{ action('SubjectController@index') }}">Temas</a>
+	    				<a class="dropdown-item" href="{{ action('DegreeController@index') }}">Licenciaturas</a>
+	    				<a class="dropdown-item" href="{{ action('FacultyController@index') }}">Facultades</a>
 	    			</div>
 	    		</li>
 	    		<li class="nav-item">
-	    			<a class="nav-link" href="/users">Usuarios</a>
+	    			<a class="nav-link" href="{{ action('UserController@index') }}">Usuarios</a>
 	    		</li>
 
 				<li class="nav-item">
-					<a class="nav-link" href="#" onclick="signOut()">Salir</a>
-					<form id="logout" action="/logout" method="post">@csrf</form>
+					<a id="g-logout-btn" class="nav-link" href="#">Salir</a>
+					<form id="logout" action="{{ action('HomeController@logout') }}" method="post">@csrf</form>
 				</li>
 			@else
 				<li class="nav-item">
-					<a class="nav-link" href="/admin">Admin</a>
+					<a class="nav-link" href="{{ action('HomeController@index') }}">Admin</a>
 				</li>
 			@endif
 		</div>

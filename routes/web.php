@@ -15,27 +15,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//CRUD User
-Route::get('users', 'AdminController@indexUser');
+Route::get('researches', 'ResearchController@index');
+Route::get('subjects', 'SubjectController@index');
+Route::get('faculties', 'FacultyController@index');
+Route::get('degrees', 'DegreeController@index');
+Route::get('participants', 'ParticipantController@index');
 
-Route::get('users/create', 'AdminController@createUser');
-Route::post('users', 'AdminController@storeUser');
-
-Route::get('users/{user}/edit', 'AdminController@editUser');
-Route::put('users/{user}', 'AdminController@updateUser');
-
-Route::delete('users/{user}', 'AdminController@destroyUser');
-
-
-Route::resource('researches', 'ResearchController');
-
-Route::resources([
-	'subjects' => 'SubjectController',
-	'faculties' => 'FacultyController',
-	'degrees' => 'DegreeController',
-	'participants' => 'ParticipantController'
-]);
-
+Route::group(
+	[
+		'prefix' => 'admin',
+		'middleware' => 'user-role',
+	], 
+	function() {
+		Route::resources([
+			'users' => 'UserController',
+			'researches' => 'ResearchController',
+			'subjects' => 'SubjectController',
+			'faculties' => 'FacultyController',
+			'degrees' => 'DegreeController',
+			'participants' => 'ParticipantController',
+		]);
+	}
+);
 
 //For JS
 
@@ -46,7 +47,7 @@ Route::get('api/subjects', function() {
 Route::get('api/participants', function() {
 	return App\Participant::whereRaw("name LIKE '%".request()->get('string')."%' or id LIKE '".request()->get('string')."%'")->get();
 });
-Auth::routes();
+//Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 

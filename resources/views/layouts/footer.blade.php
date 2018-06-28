@@ -114,28 +114,41 @@
 </script>
 <script type="text/javascript">
 	var googleUser = {};
-	  var startApp = function() {
-	    gapi.load('auth2', function(){
-	      // Retrieve the singleton for the GoogleAuth library and set up the client.
-	      auth2 = gapi.auth2.init({
-	        client_id: '{{ env('G_CLIENT_ID') }}',
-	        cookiepolicy: 'single_host_origin',
-	        // Request scopes in addition to 'profile' and 'email'
-	        //scope: 'additional_scope'
-	      });
-	      attachSignin(document.getElementById('g-custom-btn'));
-	    });
-	  };
 
-	  function attachSignin(element) {
-	    console.log(element.id);
-	    auth2.attachClickHandler(element, {},
-	        function(googleUser) {
-	          document.getElementById('token').value = googleUser.getAuthResponse().id_token;
-	          document.getElementById('login').submit();
-	        }, function(error) {
-	          alert(JSON.stringify(error, undefined, 2));
-	        });
-	  }
-	  startApp();
+	var startApp = function() {
+		gapi.load('auth2', function() {
+			// Retrieve the singleton for the GoogleAuth library and set up the client.
+			auth2 = gapi.auth2.init({
+				client_id: '{{ env('G_CLIENT_ID') }}',
+				cookiepolicy: 'single_host_origin',
+		        // Request scopes in addition to 'profile' and 'email'
+		        //scope: 'additional_scope'
+		    });
+		    if ( document.getElementById('g-custom-btn') ) {
+		    	attachSignin(document.getElementById('g-custom-btn'));
+		    }
+		    jQuery('#g-logout-btn').click(function() {
+		    	var auth2 = gapi.auth2.getAuthInstance();
+		    	auth2.signOut().then(function () {
+		    		jQuery('#logout').submit();
+		    	});
+		    });
+		});
+	};
+
+	function attachSignin(element) {
+		auth2.attachClickHandler(
+			element, 
+			{},
+			function(googleUser) {
+				document.getElementById('token').value = googleUser.getAuthResponse().id_token;
+				document.getElementById('login').submit();
+	        }, 
+	        function(error) {
+	        	alert(JSON.stringify(error, undefined, 2));
+	        }
+		);
+	}
+	
+	startApp();
 </script>

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-	<form method="post" action="/faculties">
+	<form method="post" action="{{ action('FacultyController@create') }}">
 		@csrf
 		<fieldset>
 			<legend>Nueva Facultad</legend>

@@ -11,13 +11,8 @@ use Illuminate\Http\Request;
 
 class ResearchController extends Controller
 {
-
-    public $subjects;
-
-    public function __construct()
-    {
-        $this->subjects = Subject::all();
-
+    public function __construct() {
+        $this->authorizeResource(Research::class);
     }
 
     /**
@@ -44,7 +39,7 @@ class ResearchController extends Controller
         return view(
             'research.create',
             array(
-                'subjects' => $this->subjects
+                'subjects' => Subject::all()
             )
         );
     }
@@ -181,7 +176,7 @@ class ResearchController extends Controller
             }
         }
 
-        return redirect('/researches');
+        return redirect()->action('ResearchController@index');
     }
 
     /**
@@ -341,7 +336,7 @@ class ResearchController extends Controller
             }
         }
 
-        return redirect('/researches');
+        return redirect()->action('ResearchController@index');
     }
 
     /**
@@ -354,6 +349,6 @@ class ResearchController extends Controller
     {
         $research->delete();
 
-        return redirect('/researches');
+        return redirect()->action('ResearchController@index');
     }
 }

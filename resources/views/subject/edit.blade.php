@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-	<form action="/subjects/{{ $subject->slug }}" method="post">
+	<form action="{{ action('SubjectController@update', ['id' => $subject->slug]) }}" method="post">
 		@csrf
 		@method('PUT')
 

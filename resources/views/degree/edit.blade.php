@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-	<form action="/degrees/{{ $degree->slug }}" method="post">
+	<form action="{{ action('DegreeController@update', ['id'=>$degree->slug]) }}" method="post">
 		@csrf
 		@method('PUT')
 

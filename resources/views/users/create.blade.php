@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form method="POST" action="/users">
+<form method="POST" action="{{ action( 'UserController@store' ) }}">
     @csrf
     <fieldset>
         <legend>Datos de acceso</legend>
@@ -14,6 +14,15 @@
         <div class="form-group">
             <label for="email">Email:</label>
             <input id="email" name="email" type="email" class="form-control" placeholder="nombre@email.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Rol:</label>
+            <select name="role" id="role" class="role form-control">
+                <option value="admin">Administrador</option>
+                <option value="director">Director</option>
+                <option value="professor">Profesor</option>
+            </select>
         </div>
     </fieldset>
     <fieldset>

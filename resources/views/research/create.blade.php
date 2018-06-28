@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 	
-<form action="/researches" method="post">
+<form action="{{ action('ResearchController@store') }}" method="post">
 	@csrf
 	
 	<ul class="nav nav-tabs" id="rpm-research-tab" role="tablist">

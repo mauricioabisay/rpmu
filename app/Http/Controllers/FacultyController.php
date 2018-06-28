@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class FacultyController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Faculty::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -48,7 +52,7 @@ class FacultyController extends Controller
 
         $faculty->save();
 
-        return redirect('/faculties');
+        return redirect()->action('FacultyController@index');
 
     }
 
@@ -90,7 +94,7 @@ class FacultyController extends Controller
         $faculty->title = $request->title;
         $faculty->save();
 
-        return redirect('/faculties');
+        return redirect()->action('FacultyController@index');
     }
 
     /**
@@ -103,6 +107,6 @@ class FacultyController extends Controller
     {
         $faculty->delete();
 
-        return redirect('/faculties');
+        return redirect()->action('FacultyController@index');
     }
 }

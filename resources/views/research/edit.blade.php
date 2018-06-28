@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 	
-<form action="/researches/{{ $research->id }}" method="post">
+<form action="{{ action( 'ResearchController@update' , ['id' => $research->id] ) }}" method="post">
 	@csrf
 	@method('PUT')
 	

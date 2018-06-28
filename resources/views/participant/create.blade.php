@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-	<form method="post" action="/participants">
+	<form method="post" action="{{ action( 'ParticipantController@store' ) }}">
 		@csrf
 		<fieldset>
 			<legend>Nuevo Participante</legend>
