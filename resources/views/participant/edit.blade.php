@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-	<form action="/participants/{{ $participant->id }}" method="post">
+	<form action="{{ action( 'ParticipantController@update', ['id' => $participant->id]) }}" method="post">
 		@csrf
 		@method('PUT')
 

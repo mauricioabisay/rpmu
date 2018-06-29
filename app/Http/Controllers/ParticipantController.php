@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class ParticipantController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Participant::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -43,13 +47,14 @@ class ParticipantController extends Controller
 
         $participant->id = $request->id;
         $participant->name = $request->name;
+        $participant->slug = str_slug($request->name);
         $participant->bio = $request->bio;
         $participant->link = $request->link;
         $participant->degree_slug = $request->degree_slug;
 
         $participant->save();
 
-        return redirect('/participants');
+        return redirect()->action('ParticipantController@index');
     }
 
     /**
@@ -91,13 +96,14 @@ class ParticipantController extends Controller
     {
         $participant->id = $request->id;
         $participant->name = $request->name;
+        $participant->slug = str_slug($request->name);
         $participant->bio = $request->bio;
         $participant->link = $request->link;
         $participant->degree_slug = $request->degree_slug;
 
         $participant->save();
 
-        return redirect('/participants');
+        return redirect()->action('ParticipantController@index');
 
     }
 
@@ -109,6 +115,7 @@ class ParticipantController extends Controller
      */
     public function destroy(Participant $participant)
     {
-        //
+        $participant->delete();
+        return redirect()->action('ParticipantController@index');
     }
 }

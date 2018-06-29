@@ -1,10 +1,11 @@
 @extends('layouts.main')
 @section('content')
-	<a href="/researches/create" class="btn btn-info rpm-create-new">Nueva Investigación</a>
+	<a href="{{ action('ResearchController@create') }}" class="btn btn-info rpm-create-new">Nueva Investigación</a>
 	<table class="table table-striped rpm-research-table">
 		<thead>
 			<tr>
 				<th>Título</th>
+				<th>Líder</th>
 				<th>Estado</th>
 				<th class="rpm-row-options">Opc.</th>
 			</tr>
@@ -13,18 +14,23 @@
 			@foreach ( $researches as $research )
 				<tr>
 					<td>{{ $research->title }}</td>
+					<td>{{ $research->participants()->where('role', 'leader')->first()->user_id }}</td>
 					<td>{{ $research->status }}</td>
 					<td class="rpm-row-options">
-						<a class="btn btn-info" href="/researches/{{ $research->id }}/edit">
-							<span class="octicon octicon-pencil"></span>
-						</a>
-						<form action="/researches/{{ $research->id }}/delete" method="post">
-							@csrf
-							@method('DELETE')
-							<button class="btn btn-danger">
-								<span class="octicon octicon-trashcan"></span>
-							</button>
-						</form>
+						@can('update', $research)
+							<a class="btn btn-info" href="{{ action('ResearchController@edit', ['id' => $research->id]) }}">
+								<span class="octicon octicon-pencil"></span>
+							</a>
+						@endcan
+						@can('delete', $research)
+							<form action="{{ action('ResearchController@destroy', ['id' => $research->id]) }}" method="post">
+								@csrf
+								@method('DELETE')
+								<button class="btn btn-danger">
+									<span class="octicon octicon-trashcan"></span>
+								</button>
+							</form>
+						@endcan
 					</td>
 				</tr>
 			@endforeach

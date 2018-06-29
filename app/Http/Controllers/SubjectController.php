@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Subject::class);
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +51,7 @@ class SubjectController extends Controller
 
         $subject->save();
         
-        return redirect('/subjects');
+        return redirect()->action('SubjectController@index');
     }
 
     /**
@@ -88,7 +92,7 @@ class SubjectController extends Controller
         $subject->title = $request->title;
         $subject->save();
 
-        return redirect('/subjects');
+        return redirect()->action('SubjectController@index');
     }
 
     /**
@@ -101,6 +105,6 @@ class SubjectController extends Controller
     {
         $subject->delete();
 
-        return redirect('/subjects');
+        return redirect()->action('SubjectController@index');
     }
 }

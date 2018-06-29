@@ -8,16 +8,12 @@ use App\Research;
 use App\Requirement;
 use App\Goal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ResearchController extends Controller
 {
-
-    public $subjects;
-
-    public function __construct()
-    {
-        $this->subjects = Subject::all();
-
+    public function __construct() {
+        $this->authorizeResource(Research::class);
     }
 
     /**
@@ -44,7 +40,7 @@ class ResearchController extends Controller
         return view(
             'research.create',
             array(
-                'subjects' => $this->subjects
+                'subjects' => Subject::all()
             )
         );
     }
@@ -56,7 +52,7 @@ class ResearchController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         $research = new Research;
 
         $research->title = $request->title;
@@ -180,8 +176,24 @@ class ResearchController extends Controller
                 Goal::find($ids[$i])->delete();
             }
         }
+        
+        if ( $request->file('featured_image') ) {
+            $request->file('featured_image')->storeAs('researches/'.$research->id, 'image.jpg');
+        }
 
-        return redirect('/researches');
+        if (is_array($request->file('gallery'))) {
+            $gallery_file = $request->file('gallery');
+            $gallery_len = sizeof($gallery_file);
+            $gallery_delete = $request->input('gallery_delete');
+
+            for ( $i = 0; $i < $gallery_len; $i++ ) {
+                if ( $gallery_delete[$i] < 0 ) {
+                    $gallery_file[$i]->store('researches/'.$research->id.'/gallery');
+                }
+            }
+        }
+
+        return redirect()->action('ResearchController@index');
     }
 
     /**
@@ -341,7 +353,32 @@ class ResearchController extends Controller
             }
         }
 
-        return redirect('/researches');
+        if ( $request->file('featured_image') ) {
+            $request->file('featured_image')->storeAs('researches/'.$research->id, 'image.jpg');
+        }
+
+        $gallery_delete = $request->input('gallery_delete_from_storage');
+
+        $files = Storage::files('researches/'.$research->id.'/gallery');
+        foreach ($files as $key => $file) {
+            if ( $gallery_delete[$key] > 0 ) {
+                Storage::delete($file);
+            }
+        }
+
+        if (is_array($request->file('gallery'))) {
+            $gallery_file = $request->file('gallery');
+            $gallery_len = sizeof($gallery_file);
+            $gallery_delete = $request->input('gallery_delete');
+
+            for ( $i = 0; $i < $gallery_len; $i++ ) {
+                if ( $gallery_delete[$i] < 0 ) {
+                    $gallery_file[$i]->store('researches/'.$research->id.'/gallery');
+                }
+            }
+        }
+
+        return redirect()->action('ResearchController@index');
     }
 
     /**
@@ -354,6 +391,6 @@ class ResearchController extends Controller
     {
         $research->delete();
 
-        return redirect('/researches');
+        return redirect()->action('ResearchController@index');
     }
 }

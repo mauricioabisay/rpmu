@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form method="POST" action="/users">
+<form method="POST" action="{{ action( 'UserController@store' ) }}" enctype="multipart/form-data">
     @csrf
     <fieldset>
         <legend>Datos de acceso</legend>
@@ -15,6 +15,15 @@
             <label for="email">Email:</label>
             <input id="email" name="email" type="email" class="form-control" placeholder="nombre@email.com" required>
         </div>
+
+        <div class="form-group">
+            <label for="role">Rol:</label>
+            <select name="role" id="role" class="role form-control">
+                <option value="admin">Administrador</option>
+                <option value="director">Director</option>
+                <option value="professor">Profesor</option>
+            </select>
+        </div>
     </fieldset>
     <fieldset>
         <legend>Datos de departamento</legend>
@@ -22,6 +31,13 @@
         <div class="form-group">
             <label for="id">ID/Matricula:</label>
             <input type="text" class="form-control" id name="id">
+        </div>
+
+        <div class="form-group">
+            <label for="profile_photo">Foto de perfil:</label>
+            <input type="file" class="form-control-file single-file" id="profile_photo" name="profile_photo" aria-describedby="profile-photo-help">
+            <div class="thumb"></div>
+            <small id="profile-photo-help" class="form-text text-muted">Inserta una imagen de perfil, esta se mostrará cuando seas mencionado en la plataforma.</small>
         </div>
         
         <div class="form-group">

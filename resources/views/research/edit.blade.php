@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 	
-<form action="/researches/{{ $research->id }}" method="post">
+<form action="{{ action( 'ResearchController@update' , ['id' => $research->id] ) }}" method="post" enctype="multipart/form-data">
 	@csrf
 	@method('PUT')
 	
@@ -17,6 +17,9 @@
 		</li>
 		<li class="nav-item">
 			<a href="#participants" class="nav-link" id="participants-tab" data-toggle="tab">Participantes</a>
+		</li>
+		<li class="nav-item">
+			<a href="#gallery" class="nav-link" id="gallery-tab" data-toggle="tab">Galería</a>
 		</li>
 	</ul>
 
@@ -57,6 +60,14 @@
 					<label for="abstract">Síntesis:</label>
 					<textarea name="abstract" id="abstract" cols="30" rows="3" class="form-control">{{ $research->abstract }}</textarea>
 				</div>
+				
+				<div class="form-group">
+					<label for="featured-image">Imagen de portada:</label>
+					<input type="file" id="featured_image" class="form-control-file single-file" name="featured_image" aria-describedby="featured-image-help">
+					<img class="thumb thumb-featured-image" src="{{ Storage::disk('local')->url('researches/'.$research->id.'/image.jpg')  }}">
+					<small id="featured-image-help" class="form-text text-muted">Elige una imagen de portada para tu investigación.</small>
+				</div>
+
 			</fieldset>
 		</div>
 		<div class="tab-pane fade" id="requirements">
@@ -173,6 +184,32 @@
 						<input type="hidden" name="participants[]" id="{{ $participant->id }}" value="{{ $participant->id }}">
 					@endforeach
 				</div>
+			</fieldset>
+		</div>
+		<div class="tab-pane fade" id="gallery" role="tabpanel">
+			<fieldset>
+				<legend>Galería</legend>
+				
+				<div class="form-group rpm-multi-file-container">
+					<label>Imágenes:</label>
+					
+					<div class="rpm-multi-file-item">
+						<input type="file" class="form-control-file multi-file" name="gallery[]" ariadescribedby="gallery-help" rpm-prefix="gallery" multiple>
+					</div>
+
+					<div class="multi-file-gallery">
+						@foreach(Storage::files('researches/'.$research->id.'/gallery') as $file)
+							<div class="col-3 rpm-multi-file-thumb">
+								<div class="rpm-multi-file-thumb-delete">X</div>
+								<img src="{{ Storage::disk('local')->url($file)  }}">
+								<input type="hidden" class="delete" name="gallery_delete_from_storage[]" value="-1">
+							</div>
+						@endforeach
+					</div>
+
+					<small id="gallery-help" class="form-text text-muted">Agrega imágenes para la galería del proyecto.</small>
+				</div>
+
 			</fieldset>
 		</div>
 	</div>

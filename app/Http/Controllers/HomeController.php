@@ -26,6 +26,17 @@ class HomeController extends Controller
     public function index()
     {
         if ( $user = Auth::user() ) {
+            switch ($user->role) {
+                case 'admin': {
+                    return view('dashboard.admin');
+                }
+                case 'director': {
+                    return view('dashboard.director');
+                }
+                case 'professor': {
+                    return view('dashboard.professor');
+                }
+            }
             return view('dashboard');
         } else {
             return view('login');
@@ -59,6 +70,6 @@ class HomeController extends Controller
 
     public function logout() {
         Auth::logout();
-        return redirect('researches');
+        return redirect('/');
     }
 }

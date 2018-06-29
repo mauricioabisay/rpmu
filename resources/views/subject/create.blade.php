@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-	<form method="post" action="/subjects">
+	<form method="post" action="{{ action('SubjectController@store') }}">
 		@csrf
 		<fieldset>
 			<legend>Nuevo Tema</legend>

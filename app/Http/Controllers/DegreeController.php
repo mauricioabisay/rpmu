@@ -8,14 +8,10 @@ use Illuminate\Http\Request;
 
 class DegreeController extends Controller
 {
-
-    public $faculties;
-
-    function __construct()
-    {
-        
-        $this->faculties = Faculty::all();
+    public function __construct() {
+        $this->authorizeResource(Degree::class);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,13 +19,16 @@ class DegreeController extends Controller
      */
     public function index()
     {
+        if( ! auth()->user() ) {
+            return redirect('admin');
+        }
         $degrees = Degree::all();
 
         return view(
             'degree.list', 
             array(
                 'degrees' => $degrees, 
-                'faculties' => $this->faculties
+                'faculties' => Faculty::all()
             )
         );
     }
@@ -44,7 +43,7 @@ class DegreeController extends Controller
         return view(
             'degree.create',
             array(
-                'faculties' => $this->faculties
+                'faculties' => Faculty::all()
             )
         );
     }
@@ -65,7 +64,7 @@ class DegreeController extends Controller
 
         $degree->save();
 
-        return redirect('/degrees');
+        return redirect()->action('DegreeController@index');
     }
 
     /**
@@ -91,7 +90,7 @@ class DegreeController extends Controller
             'degree.edit', 
             array(
                 'degree' => $degree,
-                'faculties' => $this->faculties
+                'faculties' => Faculty::all()
             )
         );
     }
@@ -110,7 +109,7 @@ class DegreeController extends Controller
 
         $degree->save();
 
-        return redirect('/degrees');
+        return redirect()->action('DegreeController@index');
     }
 
     /**
@@ -123,6 +122,6 @@ class DegreeController extends Controller
     {
         $degree->delete();
 
-        return redirect('/degrees');
+        return redirect()->action('DegreeController@index');
     }
 }

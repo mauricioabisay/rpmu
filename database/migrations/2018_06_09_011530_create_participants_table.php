@@ -18,15 +18,23 @@ class CreateParticipantsTable extends Migration
             $table->primary('id');
             
             $table->string('name');
+            $table->string('slug')->unique();
             $table->mediumText('bio');
             $table->string('link');
 
             $table->timestamps();
 
-            $table->unsignedInteger('user_id')->default(0);
-            $table->string('faculty_slug')->default('');            
+            $table->unsignedInteger('user_id')->nullable();
 
-            $table->string('degree_slug')->default('');
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+
+            $table->string('degree_slug')->nullable();
+
+            $table->foreign('degree_slug')
+                ->references('slug')->on('degrees')
+                ->onDelete('cascade');
         });
     }
 

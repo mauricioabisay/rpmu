@@ -1,7 +1,9 @@
 @extends('layouts.main')
 
 @section('content')
-	<a href="/users/create" class="btn btn-info rpm-create-new">Nuevo Usuario</a>
+	@can('create', App\User::class)
+		<a href="{{ action( 'UserController@create' ) }}" class="btn btn-info rpm-create-new">Nuevo Usuario</a>
+	@endcan
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -13,15 +15,19 @@
 		<tbody>
 			@foreach ( $users as $user )
 				<tr>
-					<td>{{ $user->name }}</td>
+					<td>{{ ($user->participant) ? $user->participant->name : '' }}</td>
 					<td>{{ $user->email }}</td>
 					<td class="rpm-row-options">
-						<a class="btn btn-info" href="/users/{{ $user->id }}/edit"><span class="octicon octicon-pencil"></span></a>
-						<form action="/users/{{ $user->id }}" method="post">
-							@csrf
-							@method('DELETE')
-							<button class="btn btn-danger"><span class="octicon octicon-trashcan"></span></button>
-						</form>
+						@can('update', $user)
+							<a class="btn btn-info" href="{{ action( 'UserController@edit',['id' => $user->id] ) }}"><span class="octicon octicon-pencil"></span></a>
+						@endcan
+						@can('delete', $user)
+							<form action="{{ action( 'UserController@destroy',['id' => $user->id] ) }}" method="post">
+								@csrf
+								@method('DELETE')
+								<button class="btn btn-danger"><span class="octicon octicon-trashcan"></span></button>
+							</form>
+						@endcan
 					</td>
 				</tr>
 			@endforeach
