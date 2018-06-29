@@ -14,7 +14,7 @@
 				<tr>
 					<td>{{ $subject->title }}</td>
 					<td class="rpm-row-options">
-						<a class="btn btn-info" href="{{ ( 'SubjectController@edit', ['id' => $subject->slug]) }}"><span class="octicon octicon-pencil"></span></a>
+						<a class="btn btn-info" href="{{ action( 'SubjectController@edit', ['id' => $subject->slug]) }}"><span class="octicon octicon-pencil"></span></a>
 						<form action="{{ action( 'SubjectController@destroy', ['id' => $subject->slug]) }}" method="post">
 							@csrf
 							@method('DELETE')
