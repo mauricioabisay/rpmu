@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form method="POST" action="{{ action( 'UserController@store' ) }}">
+<form method="POST" action="{{ action( 'UserController@store' ) }}" enctype="multipart/form-data">
     @csrf
     <fieldset>
         <legend>Datos de acceso</legend>
@@ -31,6 +31,13 @@
         <div class="form-group">
             <label for="id">ID/Matricula:</label>
             <input type="text" class="form-control" id name="id">
+        </div>
+
+        <div class="form-group">
+            <label for="profile_photo">Foto de perfil:</label>
+            <input type="file" class="form-control-file single-file" id="profile_photo" name="profile_photo" aria-describedby="profile-photo-help">
+            <div class="thumb"></div>
+            <small id="profile-photo-help" class="form-text text-muted">Inserta una imagen de perfil, esta se mostrará cuando seas mencionado en la plataforma.</small>
         </div>
         
         <div class="form-group">

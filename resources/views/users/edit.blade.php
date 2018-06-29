@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form method="POST" action="{{ action( 'UserController@update', ['id' => $user->id]) }}">
+<form method="POST" action="{{ action( 'UserController@update', ['id' => $user->id]) }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <fieldset>
@@ -34,6 +34,13 @@
                 type="text" class="form-control">
         </div>
         
+        <div class="form-group">
+            <label for="profile_photo">Foto de perfil:</label>
+            <input type="file" class="form-control-file single-file" id="profile_photo" name="profile_photo" aria-describedby="profile-photo-help">
+            <div class="thumb" style="background-image:url('{{ Storage::disk('local')->url('users/'.$user->email.'.jpg') }}');"></div>
+            <small id="profile-photo-help" class="form-text text-muted">Inserta una imagen de perfil, esta se mostrará cuando seas mencionado en la plataforma.</small>
+        </div>
+
         <div class="form-group">
             <label for="bio">Bio:</label>
             <textarea name="bio" id="bio" cols="30" rows="10" class="form-control">{{ $user->participant->bio }}</textarea>

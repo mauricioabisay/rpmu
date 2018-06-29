@@ -111,6 +111,53 @@
 	jQuery('.plus').bind('click', addListElement);
 	jQuery('.minus').bind('click', removeListElement);
 
+	jQuery('.single-file').change(function () {
+		if ( this.files && this.files[0] ) {
+			var reader = new FileReader();
+			var thumb = jQuery(this).parent().find('.thumb');
+			var img = jQuery(this).parent().find('.thumb-featured-image');
+			reader.onload = function(e) {
+				thumb.css('background', 'url(' + e.target.result + ')' );
+				img.attr('src', e.target.result);
+			};
+			reader.readAsDataURL(this.files[0]);
+		}
+	});
+
+	var addFile = function () {
+		if ( this.files && this.files[0] ) {
+			var reader = new FileReader();
+			var prefix = jQuery(this).attr('rpm-prefix');
+
+			var gallery = jQuery(this).parents('.rpm-multi-file-container').find('.multi-file-gallery');
+
+			var newInput = jQuery('<input type="file" class="form-control-file multi-file" name="gallery[]" ariadescribedby="gallery-help" rpm-prefix="gallery" multiple>');
+			newInput.change(addFile);
+			jQuery(this).parent().append(newInput);
+			jQuery(this).css('display', 'none');
+
+			reader.onload = function(e) {
+				gallery.append(
+					'<div class="col-3 rpm-multi-file-thumb">'+
+					'<div class="rpm-multi-file-thumb-delete">X</div>'+
+					'<img src="' + e.target.result + '">'+
+					'<input type="hidden" class="delete" name="'+prefix+'_delete[]" value="-1">'+
+					'</div>'
+				);
+				jQuery('.rpm-multi-file-thumb-delete').click(removeFile);
+			};
+			reader.readAsDataURL(this.files[0]);	
+		}
+	};
+
+	var removeFile = function () {
+		jQuery(this).parent().css('display', 'none');
+		jQuery(this).parent().find('.delete').val(1);
+	};
+
+	jQuery('.multi-file').change(addFile);
+	jQuery('.rpm-multi-file-thumb-delete').click(removeFile);
+
 </script>
 <script type="text/javascript">
 	var googleUser = {};

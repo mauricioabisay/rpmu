@@ -8,6 +8,7 @@ use App\Research;
 use App\Requirement;
 use App\Goal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ResearchController extends Controller
 {
@@ -51,7 +52,7 @@ class ResearchController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         $research = new Research;
 
         $research->title = $request->title;
@@ -173,6 +174,22 @@ class ResearchController extends Controller
             } elseif ( $ids[$i] >= 0 ) {
                 //Delete goal
                 Goal::find($ids[$i])->delete();
+            }
+        }
+        
+        if ( $request->file('featured_image') ) {
+            $request->file('featured_image')->storeAs('researches/'.$research->id, 'image.jpg');
+        }
+
+        if (is_array($request->file('gallery'))) {
+            $gallery_file = $request->file('gallery');
+            $gallery_len = sizeof($gallery_file);
+            $gallery_delete = $request->input('gallery_delete');
+
+            for ( $i = 0; $i < $gallery_len; $i++ ) {
+                if ( $gallery_delete[$i] < 0 ) {
+                    $gallery_file[$i]->store('researches/'.$research->id.'/gallery');
+                }
             }
         }
 
@@ -333,6 +350,31 @@ class ResearchController extends Controller
             } elseif ( $ids[$i] >= 0 ) {
                 //Delete goal
                 Goal::find($ids[$i])->delete();
+            }
+        }
+
+        if ( $request->file('featured_image') ) {
+            $request->file('featured_image')->storeAs('researches/'.$research->id, 'image.jpg');
+        }
+
+        $gallery_delete = $request->input('gallery_delete_from_storage');
+
+        $files = Storage::files('researches/'.$research->id.'/gallery');
+        foreach ($files as $key => $file) {
+            if ( $gallery_delete[$key] > 0 ) {
+                Storage::delete($file);
+            }
+        }
+
+        if (is_array($request->file('gallery'))) {
+            $gallery_file = $request->file('gallery');
+            $gallery_len = sizeof($gallery_file);
+            $gallery_delete = $request->input('gallery_delete');
+
+            for ( $i = 0; $i < $gallery_len; $i++ ) {
+                if ( $gallery_delete[$i] < 0 ) {
+                    $gallery_file[$i]->store('researches/'.$research->id.'/gallery');
+                }
             }
         }
 

@@ -69,6 +69,10 @@ class UserController extends Controller
 
             $user->participant()->save($participant);
 
+            if ( $request->file('profile_photo') ) {
+                $request->file('profile_photo')->storeAs('users', $request->email.'.jpg');
+            }
+
             return redirect()->action('UserController@index');
     }
 
@@ -123,6 +127,11 @@ class UserController extends Controller
         $participant->link = $request->link;
 
         $user->participant()->save($participant);
+
+        if ( $request->file('profile_photo') ) {
+            $request->file('profile_photo')->storeAs('users', $request->email.'.jpg');
+        }
+
         return redirect()->action('UserController@index');
     }
 

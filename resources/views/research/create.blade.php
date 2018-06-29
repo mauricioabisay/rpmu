@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 	
-<form action="{{ action('ResearchController@store') }}" method="post">
+<form action="{{ action('ResearchController@store') }}" method="post" enctype="multipart/form-data">
 	@csrf
 	
 	<ul class="nav nav-tabs" id="rpm-research-tab" role="tablist">
@@ -16,6 +16,9 @@
 		</li>
 		<li class="nav-item">
 			<a href="#participants" class="nav-link" id="participants-tab" data-toggle="tab">Participantes</a>
+		</li>
+		<li class="nav-item">
+			<a href="#gallery" class="nav-link" id="gallery-tab" data-toggle="tab">Galería</a>
 		</li>
 	</ul>
 
@@ -51,6 +54,14 @@
 					<label for="abstract">Síntesis:</label>
 					<textarea name="abstract" id="abstract" cols="30" rows="3" class="form-control" placeholder="Descripción breve del proyecto"></textarea>
 				</div>
+				
+				<div class="form-group">
+					<label for="featured_image">Imagen de portada:</label>
+					<input type="file" id="featured_image" class="form-control-file single-file" name="featured_image" ariadescribedby="featured-image-help">
+					<img class="thumb thumb-featured-image" src="">
+					<small id="featured-image-help" class="form-text text-muted">Elige una imagen de portada para tu investigación.</small>
+				</div>
+
 			</fieldset>
 		</div>
 		<div class="tab-pane fade" id="requirements">
@@ -127,6 +138,25 @@
 				</div>
 				
 				<div id="participants-cloud" class="form-group rpm-api-cloud"></div>
+			</fieldset>
+		</div>
+
+		<div class="tab-pane fade" id="gallery" role="tabpanel">
+			<fieldset>
+				<legend>Galería</legend>
+				
+				<div class="form-group rpm-multi-file-container">
+					<label>Imágenes:</label>
+					
+					<div class="rpm-multi-file-item">
+						<input type="file" class="form-control-file multi-file" name="gallery[]" ariadescribedby="gallery-help" rpm-prefix="gallery" multiple>
+					</div>
+
+					<div class="multi-file-gallery"></div>
+
+					<small id="gallery-help" class="form-text text-muted">Agrega imágenes para la galería del proyecto.</small>
+				</div>
+
 			</fieldset>
 		</div>
 	</div>
