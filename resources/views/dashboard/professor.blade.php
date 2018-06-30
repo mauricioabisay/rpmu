@@ -35,7 +35,7 @@
                 labels: ['Creadas', 'En desarrollo', 'Terminadas'],
                 datasets: [{
                     label: 'Dataset',
-                    backgroundColor: ['#ddd', '#dfd', '#fdd'],
+                    backgroundColor: ['#aaa', '#afa', '#faa'],
                     data: [2,1,0]
                 }]
             },
@@ -56,12 +56,12 @@
                     {
                         label: 'Pendientes',
                         data: [5,3,2,4],
-                        backgroundColor: '#ddd'
+                        backgroundColor: '#aaa'
                     },
                     {
                         label: 'Cumplidos',
                         data: [1,7,1,10],
-                        backgroundColor: '#dfd'
+                        backgroundColor: '#afa'
                     }
                 ]
             },

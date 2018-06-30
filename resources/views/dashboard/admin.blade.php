@@ -35,7 +35,7 @@
 				labels: ['Creadas', 'En desarrollo', 'Terminadas'],
 				datasets: [{
 					label: 'Dataset',
-					backgroundColor: ['#ddd', '#dfd', '#fdd'],
+					backgroundColor: ['#aaa', '#afa', '#faa'],
 					data: [5,7,4]
 				}]
 			},
@@ -56,17 +56,17 @@
 					{
 						label: 'Creadas',
 						data: [5,3,4,2],
-						backgroundColor: '#ddd'
+						backgroundColor: '#aaa'
 					},
 					{
 						label: 'En desarrollo',
 						data: [1,0,1,0],
-						backgroundColor: '#dfd'
+						backgroundColor: '#afa'
 					},
 					{
 						label: 'Terminadas',
 						data: [3,2,2,1],
-						backgroundColor: '#fdd'
+						backgroundColor: '#faa'
 					}
 				]
 			},
