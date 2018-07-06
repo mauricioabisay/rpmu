@@ -7,6 +7,30 @@ use Illuminate\Support\Facades\DB;
 
 class Research extends Model
 {
+    public function leader()
+    {
+        return $this->belongsToMany('App\Participant', 'research_participant')
+                    ->where('role', 'leader')
+                    ->withPivot('role', 'assigment')
+                    ->withTimestamps();
+    }
+
+    public function researchers()
+    {
+        return $this->belongsToMany('App\Participant', 'research_participant')
+                    ->where('role', 'researcher')
+                    ->withPivot('role', 'assigment')
+                    ->withTimestamps();
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany('App\Participant', 'research_participant')
+                    ->where('role', 'student')
+                    ->withPivot('role', 'assigment')
+                    ->withTimestamps();
+    }
+
 	public function participants()
 	{
 		return $this->belongsToMany('App\Participant', 'research_participant')
