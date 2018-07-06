@@ -8,7 +8,7 @@
 </div>
 
 <div class="row">
-	<div class="col-sm-12 col-lg-6">
+	<div class="col-sm-12 col-md-6 rpm-graph">
 		<div class="card">
 			<div class="card-body">
 				<h5 class="card-title">Avance de Investigaciones</h5>
@@ -16,14 +16,22 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-12 col-lg-6">
+	<div class="col-sm-12 col-md-6 rpm-graph">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Rendimiento de Investigadores</h5>
+				<canvas id="rpm-researchers-performance"></canvas>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 rpm-graph">
 		<div class="card">
 			<div class="card-body">
 				<h5 class="card-title">Investigaciones por facultades</h5>
 				<canvas id="rpm-researches-by-faculty"></canvas>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -36,7 +44,7 @@
 				datasets: [{
 					label: 'Dataset',
 					backgroundColor: ['#aaa', '#afa', '#faa'],
-					data: [5,7,4]
+					data: {{$researches_by_status_data}}
 				}]
 			},
 			options: {
@@ -51,21 +59,21 @@
 		{
 			type: 'bar',
 			data: {
-				labels: ['Ing.Sw', 'Ing.Sist.', 'Ing.Datos', 'Ing.Civil'],
+				labels: {!! $researches_by_faculty['labels'] !!},
 				datasets: [
 					{
 						label: 'Creadas',
-						data: [5,3,4,2],
+						data: {{ $researches_by_faculty['created'] }},
 						backgroundColor: '#aaa'
 					},
 					{
 						label: 'En desarrollo',
-						data: [1,0,1,0],
+						data: {{ $researches_by_faculty['started'] }},
 						backgroundColor: '#afa'
 					},
 					{
 						label: 'Terminadas',
-						data: [3,2,2,1],
+						data: {{ $researches_by_faculty['completed'] }},
 						backgroundColor: '#faa'
 					}
 				]
@@ -79,6 +87,25 @@
 					yAxes: [{stacked: true}]
 				},
 				responsive: true,
+			}
+		}
+	);
+	new Chart(
+		document.getElementById('rpm-researchers-performance').getContext('2d'),
+		{
+			type: 'pie',
+			data: {
+				labels: ['Sin Investigaciones', 'Con Investigaciones'],
+				datasets: [{
+					label: 'Dataset',
+					backgroundColor: ['#aaa', '#afa',],
+					data: {{$researchers_performance_data}}
+				}]
+			},
+			options: {
+				legend: {
+					position: 'right'
+				}
 			}
 		}
 	);

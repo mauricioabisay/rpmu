@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@home')->name('home');
+
+Route::get('/research/{research}', 'HomeController@research')->name('research');
+
+Route::get('/researcher/{researcher}', 'HomeController@researcher')->name('researcher');
 
 Route::get('researches', 'ResearchController@index');
 Route::get('subjects', 'SubjectController@index');
