@@ -31,4 +31,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Participant');
     }
+
+    public function faculty()
+    {
+        return $this->belongsTo('App\Faculty');
+    }
 }

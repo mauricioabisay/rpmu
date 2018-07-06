@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 use App\User;
 use App\Research;
+use App\Subject;
 use App\Faculty;
+use App\Participant;
 
 class HomeController extends Controller
 {
@@ -26,13 +28,39 @@ class HomeController extends Controller
         return view('public.home', compact('researches'));
     }
 
-    public function research($research) {
-        $research = Research::where('slug', '=', $research)->first();
-        return view('public.research', compact('research'));
+    public function research($research = false) {
+        if($research) {
+            $research = Research::where('slug', '=', $research)->first();
+            $subjects = array();
+            foreach (explode(',', $research->subject) as $s) {
+                $subjects[] = Subject::where('slug', $s)->first();
+            }
+            return view('public.research', compact('research','subjects'));
+        } else {
+            $researches = Research::all();
+            return view('public.home', compact('researches'));       
+        }
     }
 
-    public function researcher($slug) {
-        return view('public.researcher');
+    public function researcher($researcher = false) {
+        if($researcher) {
+            $researcher = Participant::where('slug', $researcher)->first();
+            return view('public.researcher', compact('researcher'));
+        } else {
+            $participants = Participant::all();
+            return view('public.researcher-list', compact('participants'));
+        }
+    }
+
+    public function faculty($faculty = false) {
+        if($faculty) {
+            $researches = Faculty::researches($faculty);
+            $faculty = Faculty::where('slug', $faculty)->first();
+            return view('public.faculty', compact('faculty','researches'));
+        } else {
+            $faculties = Faculty::all();
+            return view('public.faculty-list', compact('faculties'));
+        }
     }
 
     /**

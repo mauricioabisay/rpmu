@@ -13,9 +13,11 @@
 
 Route::get('/', 'HomeController@home')->name('home');
 
-Route::get('/research/{research}', 'HomeController@research')->name('research');
+Route::get('/research/{research?}', 'HomeController@research')->name('research');
 
-Route::get('/researcher/{researcher}', 'HomeController@researcher')->name('researcher');
+Route::get('/researcher/{researcher?}', 'HomeController@researcher')->name('researcher');
+
+Route::get('/faculty/{faculty?}', 'HomeController@faculty')->name('faculty');
 
 Route::get('researches', 'ResearchController@index');
 Route::get('subjects', 'SubjectController@index');
