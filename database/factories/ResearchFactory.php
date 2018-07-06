@@ -3,7 +3,7 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Research::class, function (Faker $faker) {
-	$title = $faker->text();
+	$title = $faker->sentence(5);
 	$slug = str_slug($title);
     return [
     	'slug' => $slug,

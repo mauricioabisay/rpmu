@@ -104,6 +104,9 @@
 			width: 100%;
 			height: auto;
 		}
+		.rpm-graph {
+			margin-top: 1em;
+		}
 	</style>
 </head>
 <body>
