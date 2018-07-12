@@ -57,7 +57,7 @@
 	new Chart(
 		document.getElementById('rpm-researches-by-faculty').getContext('2d'),
 		{
-			type: 'bar',
+			type: 'horizontalBar',
 			data: {
 				labels: {!! $researches_by_faculty['labels'] !!},
 				datasets: [
