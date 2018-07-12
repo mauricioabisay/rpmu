@@ -1,8 +1,8 @@
 @extends('public.main')
 
 @section('content')
-<div class="container">
-	<div class="row">
+<div class="container rpm-participant-researches">
+	<div class="row header">
 		<div class="col rpm-participant">
 			<div class="thumb"></div>
 			<h1>{{ $researcher->name }}</h1>
@@ -14,14 +14,14 @@
 			@endif
 		</div>
 	</div>
-	<div class="row">
-	@foreach ( $researcher->researches as $r )
-		<div class="col-sm-12 col-md-4">
-			<h3>{{ $r->title }}</h3>
-			<p>{{ $r->abstract }}</p>
-			<p><a href="{{ route('research', [$r->slug]) }}">Ver más</a></p>
-		</div>
-	@endforeach
+	<div class="row desc">
+		<p>{{ $researcher->bio }}</p>
+		<p>Link: <a href="{{ $researcher->link }}">{{ $researcher->link }}</a></p>
 	</div>
+	<div class="row researches-header">
+		<h3>Proyectos</h3>
+	</div>
+	<?php $researches = $researcher->researches;?>
+	@include('public.list-researches')
 </div>
 @endsection
