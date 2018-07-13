@@ -143,6 +143,10 @@
 			font-size: 1.2em;
 			font-weight: bolder;
 		}
+		.rpm-researches-list .rpm-research-item img {
+			width: 100%;
+			height: auto;
+		}
 		.rpm-researches-list .rpm-research-item p {
 			font-size: .9em;
 		}
