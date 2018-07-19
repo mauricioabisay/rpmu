@@ -19,6 +19,8 @@ Route::get('/researcher/{researcher?}', 'HomeController@researcher')->name('rese
 
 Route::get('/faculty/{faculty?}', 'HomeController@faculty')->name('faculty');
 
+Route::get('/degree/{degree?}', 'HomeController@degree')->name('degree');
+
 Route::get('researches', 'ResearchController@index');
 Route::get('subjects', 'SubjectController@index');
 Route::get('faculties', 'FacultyController@index');

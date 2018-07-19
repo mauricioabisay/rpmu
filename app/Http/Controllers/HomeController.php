@@ -9,6 +9,7 @@ use App\User;
 use App\Research;
 use App\Subject;
 use App\Faculty;
+use App\Degree;
 use App\Participant;
 
 class HomeController extends Controller
@@ -23,13 +24,20 @@ class HomeController extends Controller
         //$this->middleware('auth');
     }
 
+    /**
+     * Get all researches in faculty and created order, both in ascending order
+    */
     public function home() {
-        $researches = Research::all();
+        $researches = Research::allResearchesByFaculty()->paginate(env('RESULTS_PER_PAGE'));
         return view('public.home', compact('researches'));
     }
 
+    /**
+     * Get research by slug or all researches
+    */
     public function research($research = false) {
         if($research) {
+            //Slug provided, so get the research
             $research = Research::where('slug', '=', $research)->first();
             $subjects = array();
             foreach (explode(',', $research->subject) as $s) {
@@ -37,11 +45,15 @@ class HomeController extends Controller
             }
             return view('public.research', compact('research','subjects'));
         } else {
-            $researches = Research::all();
+            //Slug not provided, get all researches
+            $researches = Research::allResearchesByFaculty()->paginate(env('RESULTS_PER_PAGE'));
             return view('public.home', compact('researches'));       
         }
     }
 
+    /**
+     * Get researcher profile or all researchers 
+    */
     public function researcher($researcher = false) {
         if($researcher) {
             $researcher = Participant::where('slug', $researcher)->first();
@@ -54,12 +66,20 @@ class HomeController extends Controller
 
     public function faculty($faculty = false) {
         if($faculty) {
-            $researches = Faculty::researches($faculty);
+            $researches = Faculty::researches($faculty)->paginate(env('RESULTS_PER_PAGE'));
             $faculty = Faculty::where('slug', $faculty)->first();
             return view('public.faculty', compact('faculty','researches'));
         } else {
             $faculties = Faculty::all();
             return view('public.faculty-list', compact('faculties'));
+        }
+    }
+
+    public function degree($degree) {
+        if($degree) {
+            $researches = Degree::researches($degree)->paginate(env('RESULTS_PER_PAGE'));
+            $degree = Degree::where('slug', $degree)->first();
+            return view('public.degree', compact('degree', 'researches'));
         }
     }
 

@@ -7,6 +7,73 @@ use Illuminate\Support\Facades\DB;
 
 class Research extends Model
 {
+
+    public static function faculty_title($id)
+    {
+        return DB::table('researches')
+        ->join(
+            'research_participant',
+            'research_participant.research_id',
+            '=',
+            'researches.id'
+        )
+        ->join(
+            'participants',
+            'participants.id',
+            '=',
+            'research_participant.participant_id'
+        )
+        ->join(
+            'users',
+            'users.id',
+            '=',
+            'participants.user_id'
+        )
+        ->join(
+            'faculties',
+            'faculties.slug',
+            '=',
+            'users.faculty_slug'
+        )
+        ->select(
+            'faculties.slug as slug',
+            'faculties.title as title'
+        )
+        ->where('researches.id', '=', $id)
+        ->where('research_participant.role', '=', 'leader')
+        ->first()->title;
+    }
+
+    public static function degrees_titles($id)
+    {
+        return DB::table('researches')
+        ->join(
+            'research_participant',
+            'research_participant.research_id',
+            '=',
+            'researches.id'
+        )
+        ->join(
+            'participants',
+            'participants.id',
+            '=',
+            'research_participant.participant_id'
+        )
+        ->join(
+            'degrees',
+            'degrees.slug',
+            '=',
+            'participants.degree_slug'
+        )
+        ->select(
+            'degrees.slug as slug',
+            'degrees.title as title'
+        )
+        ->where('researches.id', '=', $id)
+        ->whereNotNull('participants.degree_slug')
+        ->get();
+    }
+
     public function leader()
     {
         return $this->belongsToMany('App\Participant', 'research_participant')
@@ -46,6 +113,11 @@ class Research extends Model
     public function goals()
     {
     	return $this->hasMany('App\Goal');
+    }
+
+    public function citations()
+    {
+        return $this->hasMany('App\Citation');
     }
 
     public static function byStatus() 
@@ -189,4 +261,42 @@ class Research extends Model
         }
     }
 
+    public static function allResearchesByFaculty()
+    {
+        return DB::table('researches')
+        ->join(
+            'research_participant', 
+            'researches.id', 
+            '=', 
+            'research_participant.research_id'
+        )
+        ->join(
+            'participants',
+            'participants.id',
+            '=',
+            'research_participant.participant_id'
+        )
+        ->join(
+            'users',
+            'users.id',
+            '=',
+            'participants.user_id'
+        )
+        ->join(
+            'faculties',
+            'faculties.slug',
+            '=',
+            'users.faculty_slug'
+        )
+        ->select(
+            'researches.id as id',
+            'researches.slug as slug',
+            'researches.title as title',
+            'researches.abstract as abstract',
+            'faculties.title as faculty'
+        )
+        ->where('research_participant.role', '=', 'leader')
+        ->orderBy('users.faculty_slug', 'asc')
+        ->orderBy('researches.updated_at', 'desc');
+    }
 }

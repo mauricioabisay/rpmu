@@ -4,22 +4,46 @@
 <div class="rpm-research">
 	<div class="header">
 		<h1>{{ $research->title }}</h1>
-		<div class="thumbnail" style="background-image: url({{ Storage::disk('local')->url('researches/'.$research->id.'/image.jpg')  }})"></div>
+		@if ( Storage::exists('researches/'.$research->id.'/image.jpg') )
+		<div class="thumbnail jarallax" data-jarallax data-speed="0.2">
+			<img class="jarallax-img" src="{{ Storage::disk('local')->url('researches/'.$research->id.'/image.jpg')  }}">
+		</div>
+		@endif
 	</div>
 <div class="container">
-	<div class="row">
+	
+	<div class="row faculty">
 		<div class="col">
-			<h2>
-				@foreach ( $subjects as $s )
-					<span>{{ $s->title }}</span>
-				@endforeach
-			</h2>
+			<h2>Facultad:</h2>
+			<h3>{{ $research->faculty_title($research->id) }}</h3>
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row degrees">
 		<div class="col">
-			<h2>Resumen</h2>
+			<h2>Carreas:</h2>
+			<p class="list">
+			@foreach( $research->degrees_titles($research->id) as $degree )
+				<span><a href="{{ route('degree', [$degree->slug]) }}">{{ $degree->title }}</a></span>
+			@endforeach
+			</p>
+		</div>
+	</div>
+
+	<div class="row subjects">
+		<div class="col">
+			<h2>Temas:</h2>
+			<h3>
+				@foreach ( $subjects as $s )
+					<span>{{ $s->title }}</span>
+				@endforeach
+			</h3>
+		</div>
+	</div>
+
+	<div class="row abstract">
+		<div class="col">
+			<h2>Síntesis:</h2>
 			<p>{{ $research->abstract }}</p>
 		</div>
 	</div>
@@ -113,9 +137,10 @@
 	@endif
 </div>
 </div>
+<script src="https://unpkg.com/jarallax@1.10/dist/jarallax.min.js"></script>
 <script type="text/javascript">
 	window.onload = function() {
-		jQuery('.rpm-research-carousel').slick();
+		jQuery('.rpm-research-carousel').slick({dots: true});
 	};
 </script>
 @endsection
