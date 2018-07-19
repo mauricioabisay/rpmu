@@ -37,15 +37,20 @@ class Faculty extends Model
     	    '=',
     	    'participants.user_id'
     	)
+        ->join(
+            'faculties',
+            'faculties.slug',
+            '=',
+            'users.faculty_slug'
+        )
     	->select(
-    	    'research_participant.research_id',
-    	    'researches.title',
-    	    'researches.abstract',
-    	    'researches.slug',
-    	    'users.faculty_slug'
+    	    'researches.id as id',
+            'researches.slug as slug',
+    	    'researches.title as title',
+    	    'researches.abstract as abstract',
+    	    'faculties.title as faculty'
     	)
     	->where('users.faculty_slug', '=', $faculty)
-    	->where('research_participant.role', '=', 'leader')
-    	->get();
+    	->where('research_participant.role', '=', 'leader');
     }
 }

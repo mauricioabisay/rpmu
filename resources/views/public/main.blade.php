@@ -12,14 +12,33 @@
 			margin: 2em 0;
 		}
 		.rpm-research .header .thumbnail {
-			background-size: cover !important;
-			background-repeat: no-repeat !important;
 			width: 100%;
-			height: 40vh;
-			z-index: 5;
+			height: 55vh;
+			z-index: 0;
+			position: relative;
+		}
+		.rpm-research .header .thumbnail img {
+			position: absolute;
+			object-fit: contain !important;
+			object-position: 50% 25% !important;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: auto;
+			z-index: -1;
 		}
 		.rpm-research .header h1 {
 			text-align: center;
+		}
+		.rpm-research .degrees .list span a {
+			color: #b61b1b;
+		}
+		.rpm-research .degrees .list span:after {
+			content: ',';
+			margin: 0 0.25em 0 0;
+		}
+		.rpm-research .degrees .list span:last-child::after {
+			content: '';
 		}
 		/****/
 		.rpm-participants {
@@ -43,6 +62,10 @@
 			width: auto;
 			height: 80vh;
 			margin: 0 auto;
+		}
+		.slick-prev.slick-arrow, .slick-next.slick-arrow {
+			background-color: #b61b1b;
+			border-radius: 100%;
 		}
 		
 		.rpm-menu {
@@ -125,6 +148,10 @@
 		.rpm-faculty {
 			margin: 1em 0em;
 		}
+		.rpm-faculty h2 a, 
+		.rpm-faculty h3 a {
+			width: 100%;
+		}
 		.rpm-faculty h2 {
 			padding-bottom: 0.25em;
 			border-bottom: 2px solid #b61b1b;
@@ -132,6 +159,14 @@
 		}
 		.rpm-faculty h3 {
 			font-size: 1em;
+			border-bottom: 1px dashed black;
+		}
+		.rpm-faculty h3 span {
+			background-color: white;
+			padding-bottom: 3px;
+		}
+		.rpm-faculty h3 span.counter {
+			float: right;
 		}
 		/**/
 		.rpm-participant-researches .header,
@@ -143,6 +178,21 @@
 			font-size: 1.2em;
 			font-weight: bolder;
 		}
+		.rpm-researches-list .rpm-research-item h4 {
+			font-size: 1em;
+			font-weight: lighter;
+		}
+
+		.rpm-researches-list .rpm-research-item h4:before,
+		.rpm-researches-list .rpm-research-item .abstract:before {
+			display: block;
+			margin: 0.5em 0;
+			color: #b61b1b;
+		}
+
+		.rpm-researches-list .rpm-research-item h4:before {
+			content: 'Facultad';
+		}
 		.rpm-researches-list .rpm-research-item img {
 			width: 100%;
 			height: auto;
@@ -150,8 +200,19 @@
 		.rpm-researches-list .rpm-research-item p {
 			font-size: .9em;
 		}
+		.rpm-researches-list .rpm-research-item .abstract:before {
+			content: 'Síntesis';
+		}
 		.rpm-researches-list .rpm-research-item .link {
 			border-bottom: 1px solid #b61b1b;
+		}
+		.rpm-pagination .pagination {
+			margin: 1em 0;
+			justify-content: center;
+		}
+		.rpm-pagination .pagination li.active span {
+			background-color: #b61b1b;
+			border-color: #b61b1b;
 		}
 		/***/
 		.rpm-participant-researches .header .rpm-participant h1 {
