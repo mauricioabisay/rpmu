@@ -43,7 +43,7 @@
 				labels: ['Creadas', 'En desarrollo', 'Terminadas'],
 				datasets: [{
 					label: 'Dataset',
-					backgroundColor: ['#aaa', '#afa', '#faa'],
+					backgroundColor: ['#aaa', '#ffa', '#afa'],
 					data: {{$researches_by_status_data}}
 				}]
 			},
@@ -69,12 +69,12 @@
 					{
 						label: 'En desarrollo',
 						data: {{ $researches_by_faculty['started'] }},
-						backgroundColor: '#afa'
+						backgroundColor: '#ffa'
 					},
 					{
 						label: 'Terminadas',
 						data: {{ $researches_by_faculty['completed'] }},
-						backgroundColor: '#faa'
+						backgroundColor: '#afa'
 					}
 				]
 			},

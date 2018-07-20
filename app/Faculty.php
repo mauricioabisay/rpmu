@@ -53,4 +53,35 @@ class Faculty extends Model
     	->where('users.faculty_slug', '=', $faculty)
     	->where('research_participant.role', '=', 'leader');
     }
+
+    public static function researchesByStatus($faculty)
+    {
+        return DB::table('researches')
+        ->join(
+            'research_participant', 
+            'researches.id', 
+            '=', 
+            'research_participant.research_id'
+        )
+        ->join(
+            'participants',
+            'participants.id',
+            '=',
+            'research_participant.participant_id'
+        )
+        ->join(
+            'users',
+            'users.id',
+            '=',
+            'participants.user_id'
+        )
+        ->select(
+            DB::raw('count(*) as counter'),
+            'researches.status as status'
+        )
+        ->where('users.faculty_slug', '=', $faculty)
+        ->where('research_participant.role', '=', 'leader')
+        ->groupBy('researches.status')
+        ->get();
+    }
 }

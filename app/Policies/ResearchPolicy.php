@@ -53,7 +53,7 @@ class ResearchPolicy
     public function update(User $user, Research $research)
     {
         if ( ($user->role === 'director') && 
-             ($research->participants()->where('role', 'leader')->first()->user()->faculty_slug === $user->faculty_slug) 
+             ($research->leader()->first()->faculty_slug === User::find($user->id)->faculty_slug) 
         ) {
             return true;
         }
@@ -70,7 +70,7 @@ class ResearchPolicy
     public function delete(User $user, Research $research)
     {
         if ( ($user->role === 'director') && 
-             ($research->participants()->where('role', 'leader')->first()->user()->faculty_slug === $user->faculty_slug) 
+             ($research->leader()->first()->faculty_slug === User::find($user->id)->faculty_slug) 
         ) {
             return true;
         }

@@ -36,7 +36,7 @@
                 datasets: [{
                     label: 'Dataset',
                     backgroundColor: ['#aaa', '#afa', '#faa'],
-                    data: [2,1,0]
+                    data: {{$researches_by_status_data}}
                 }]
             },
             options: {
@@ -49,25 +49,25 @@
     new Chart(
         document.getElementById('rpm-researches-by-faculty').getContext('2d'),
         {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
-                labels: ['Investigacion 1', 'Investigacion 2', 'Investigacion 3', 'Investigacion 4'],
+                labels: {!! $researches_objectives['labels'] !!},
                 datasets: [
                     {
                         label: 'Pendientes',
-                        data: [5,3,2,4],
+                        data: {{ $researches_objectives['pending'] }},
                         backgroundColor: '#aaa'
                     },
                     {
                         label: 'Cumplidos',
-                        data: [1,7,1,10],
+                        data: {{ $researches_objectives['completed'] }},
                         backgroundColor: '#afa'
                     }
                 ]
             },
             options: {
                 legend: {
-                    position: 'right'
+                    position: 'bottom'
                 },
                 scales: {
                     xAxes: [{stacked: true}],

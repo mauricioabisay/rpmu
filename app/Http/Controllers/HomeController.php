@@ -179,10 +179,78 @@ class HomeController extends Controller
                     );
                 }
                 case 'director': {
-                    return view('dashboard.director');
+                    $faculty_slug = User::find(Auth::user()->id)->faculty_slug;
+                    
+                    $researches_by_status = Faculty::researchesByStatus($faculty_slug);
+
+                    $researches_by_status_data = array();
+                    foreach ($researches_by_status as $r) {
+                        $researches_by_status_data[] = $r->counter;
+                    }
+
+                    $researchers_performance = Research::researchers_performance($faculty_slug);
+
+                    $researchers_performance_data = array(0, 0);
+                    foreach ($researchers_performance as $r) {
+                        if ( $r->counter === 0 ) {
+                            $researchers_performance_data[0]++;
+                        } else {
+                            $researchers_performance_data[1]++;
+                        }
+                    }
+                    
+                    return view(
+                        'dashboard.director', 
+                        array(
+                            'researches_by_status_data' => json_encode($researches_by_status_data),
+                            'researchers_performance_data' => json_encode($researchers_performance_data)
+                        )
+                    );
                 }
                 case 'professor': {
-                    return view('dashboard.professor');
+                    $researches_created = User::researchesByStatus('created')->count();
+
+                    $researches_started = User::researchesByStatus('started')->count();
+
+                    $researches_completed = User::researchesByStatus('completed')->count();
+                    
+                    $researches_by_status_data = array(
+                        $researches_created,
+                        $researches_started,
+                        $researches_completed
+                    );
+
+                    $researches_objectives_completed = User::researchesObjectivesCompleted()->get();
+                    $researches_objectives_pending = User::researchesObjectivesPending()->get();
+
+                    $researches_objectives_labels = array();
+                    $researches_objectives_completed_data = array();
+                    foreach ($researches_objectives_completed as $r) {
+                        $researches_objectives_labels[] = $r->title;
+                        $researches_objectives_completed_data[] = $r->counter;
+                    }
+
+                    $researches_objectives_pending_data = array();
+                    foreach ($researches_objectives_pending as $r) {
+                        $researches_objectives_pending_data[] = $r->counter;
+                    }
+
+                    $researches_objectives_data = array(
+                        'labels' => json_encode($researches_objectives_labels),
+                        'pending' => json_encode($researches_objectives_pending_data),
+                        'completed' => json_encode($researches_objectives_completed_data)
+                    );
+
+
+                    return view(
+                        'dashboard.professor',
+                        array(
+                            'researches_by_status_data' => json_encode($researches_by_status_data),
+                            'researches_objectives' => $researches_objectives_data,
+                            'test' => $researches_objectives_pending,
+                            'testc' => $researches_objectives_completed
+                        )
+                    );
                 }
             }
             return view('dashboard');
