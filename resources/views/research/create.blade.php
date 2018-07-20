@@ -6,7 +6,7 @@
 	
 	<ul class="nav nav-tabs" id="rpm-research-tab" role="tablist">
 		<li class="nav-item">
-			<a href="#general-info" class="nav-link active" id="general-info-tab" data-toggle="tab">Información General</a>
+			<a href="#general-info" class="nav-link active" id="general-info-tab" data-toggle="tab">General</a>
 		</li>
 		<li class="nav-item">
 			<a href="#requirements" class="nav-link" id="requirements-tab" data-toggle="tab">Requisitos</a>

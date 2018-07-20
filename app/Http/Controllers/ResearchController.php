@@ -368,6 +368,7 @@ class ResearchController extends Controller
         $deletes = $request->input('goal_delete');
         $titles = $request->input('goal_title');
         $descriptions = $request->input('goal_description');
+        $achieves = $request->input('goal_achieve');
         for ( $i = 0; $i < $len; $i++ ) {
             if ( $deletes[$i] < 0 ) {
                 if ( strlen($titles[$i]) > 0 ) {
@@ -377,6 +378,7 @@ class ResearchController extends Controller
 
                         $goal->title = $titles[$i];
                         $goal->description = ( strlen($descriptions[$i]) > 0 ) ? $descriptions[$i] : '';
+                        $goal->achieve = $achieves[$i];
 
                         $research->goals()->save($goal);
                     } else {
@@ -460,6 +462,19 @@ class ResearchController extends Controller
                 Citation::find($ids[$i])->delete();
             }
         }
+
+        $goals_total = $research->goals->count();
+        $goals_achieved = $research->goalsAchieved->count();
+        
+        if ( $goals_total === $goals_achieved ) {
+            $research->status = 'completed';
+        } elseif ( $goals_achieved > 0 ) {
+            $research->status = 'started';
+        } else {
+            $research->status = 'created';
+        }
+
+        $research->save();
 
         return redirect()->action('ResearchController@index');
     }

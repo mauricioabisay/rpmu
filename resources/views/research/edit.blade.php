@@ -116,8 +116,15 @@
 						<div class="form-group col-md-4">
 							<input type="text" class="form-control" name="goal_title[]" placeholder="Título" value="{{ $goal->title }}">
 						</div>
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-5">
 							<textarea name="goal_description[]" class="form-control" cols="30" rows="3" placeholder="Descripción">{{ $goal->description }}</textarea>
+						</div>
+						<div class="form-group col-md-2">
+							<label>Estado:</label>
+							<select class="form-control" name="goal_achieve[]">
+								<option value="0" {{ ( $goal->achieve == 0 ) ? 'selected="selected"' : '' }}>Pendiente</option>
+								<option value="1" {{ ( $goal->achieve > 0 ) ? 'selected="selected' : '' }}>Completada</option>
+							</select>
 						</div>
 						<div class="form-group col-md-1">
 							<input class="btn btn-primary minus" type="button" value="-">
@@ -127,6 +134,7 @@
 				<div class="form-inline rpm-dynamic-list-item" rpm-dynamic-list-prefix="goal">
 					<input class="delete" type="hidden" name="goal_delete[]" value="-1">
 					<input class="id" type="hidden" name="goal_id[]" value="-1">
+					<input type="hidden" name="goal_achieve[]" value="0">
 					<div class="form-group col-md-4">
 						<input type="text" class="form-control" name="goal_title[]" placeholder="Título">
 					</div>

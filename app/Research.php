@@ -115,6 +115,12 @@ class Research extends Model
     	return $this->hasMany('App\Goal');
     }
 
+    public function goalsAchieved()
+    {
+        return $this->hasMany('App\Goal')
+                    ->where('achieve', '>', '0');
+    }
+
     public function citations()
     {
         return $this->hasMany('App\Citation');
