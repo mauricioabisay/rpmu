@@ -14,7 +14,7 @@
 			@foreach ( $researches as $research )
 				<tr>
 					<td>{{ $research->title }}</td>
-					<td>{{ $research->participants()->where('role', 'leader')->first()->user_id }}</td>
+					<td>{{ $research->leader()->first()->name }} ({{ $research->leader()->first()->user->email }})</td>
 					<td>{{ $research->status }}</td>
 					<td class="rpm-row-options">
 						@can('update', $research)
