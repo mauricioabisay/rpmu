@@ -101,6 +101,9 @@
 		clon.find('.delete').val(-1);
 		clon.find('.id').val(-1);
 
+		clon.find('.rpm-citation-link').css('display', 'none');
+		clon.find('.rpm-citation-file').css('display', 'none');
+
 		itemContainer.append(clon);
 
 		jQuery(this).unbind();
@@ -158,6 +161,27 @@
 	jQuery('.multi-file').change(addFile);
 	jQuery('.rpm-multi-file-thumb-delete').click(removeFile);
 
+	var linkOrFile = function() {
+		var me = jQuery(this);
+		var parent = me.parents('.rpm-dynamic-list-item');
+		switch( me.val() ) {
+			case 'link': {
+				parent.find('.rpm-citation-link').css('display', 'inline-block');
+				parent.find('.rpm-citation-file').css('display', 'none');
+				console.log('hidde file');
+				break;
+			}
+			case 'file': {
+				parent.find('.rpm-citation-file').css('display', 'inline-block');
+				parent.find('.rpm-citation-link').css('display', 'none');
+				console.log('hidde link');
+				break;
+			}
+		}
+	};
+
+	jQuery('select[name="citation_type[]"]').change(linkOrFile);
+
 </script>
 <script type="text/javascript">
 	var googleUser = {};
@@ -196,6 +220,7 @@
 	        }
 		);
 	}
-	
-	startApp();
+	window.onload = function() {
+		startApp();
+	};
 </script>

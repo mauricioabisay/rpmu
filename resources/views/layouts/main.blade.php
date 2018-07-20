@@ -107,6 +107,13 @@
 		.rpm-graph {
 			margin-top: 1em;
 		}
+		.rpm-citations-tab .type label {
+			display: inline-block;
+		}
+		.rpm-citations-tab .rpm-dynamic-list-item .rpm-citation-link,
+		.rpm-citations-tab .rpm-dynamic-list-item .rpm-citation-file {
+			display: none;
+		}
 	</style>
 </head>
 <body>

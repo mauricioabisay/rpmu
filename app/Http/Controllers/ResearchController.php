@@ -7,6 +7,7 @@ use App\Subject;
 use App\Research;
 use App\Requirement;
 use App\Goal;
+use App\Citation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -193,6 +194,47 @@ class ResearchController extends Controller
             }
         }
 
+        $len = sizeof($request->citation_id);
+        $ids = $request->input('citation_id');
+        $deletes = $request->input('citation_delete');
+        $descriptions = $request->input('citation_description');
+        $types = $request->input('citation_type');
+        $links = $request->input('citation_link');
+        $files = ( is_array($request->file('citation_file')) ) ? $request->file('citation_file') : array();
+
+        for ( $i = 0; $i < $len; $i++ ) {
+            if ( $deletes[$i] < 0 ) {
+                if ( strlen($descriptions[$i]) > 0 ) {
+                    if ( $ids[$i] >= 0 ) {
+                        //Update Citation
+                        $citation = Citation::find($ids[$i]);
+
+                        $citation->description = $descriptions[$i];
+
+                        $research->citations()->save($citation);
+                    } else {
+                        //Create new Citation
+                        $citation = new Citation;
+
+                        $citation->description = $descriptions[$i];
+
+                        if ( $types[$i] === 'file' ) {
+                            $files[$i]->store('researches/'.$research->id.'/files');
+                            $path = 'researches/'.$research->id.'/files/'.$files[$i]->hashName();
+                            $citation->link = Storage::disk('local')->url($path);
+                        } else {
+                            $citation->link = ( stristr($links[$i], 'http://') || (stristr($links[$i], 'https://')) ) ? $links[$i] : 'http://'.$links[$i];
+                        }
+
+                        $research->citations()->save($citation);
+                    }
+                }
+            } elseif ( $ids[$i] >= 0 ) {
+                //Delete goal
+                Citation::find($ids[$i])->delete();
+            }
+        }
+
         return redirect()->action('ResearchController@index');
     }
 
@@ -375,6 +417,47 @@ class ResearchController extends Controller
                 if ( $gallery_delete[$i] < 0 ) {
                     $gallery_file[$i]->store('researches/'.$research->id.'/gallery');
                 }
+            }
+        }
+
+        $len = sizeof($request->citation_id);
+        $ids = $request->input('citation_id');
+        $deletes = $request->input('citation_delete');
+        $descriptions = $request->input('citation_description');
+        $types = $request->input('citation_type');
+        $links = $request->input('citation_link');
+        $files = ( is_array($request->file('citation_file')) ) ? $request->file('citation_file') : array();
+
+        for ( $i = 0; $i < $len; $i++ ) {
+            if ( $deletes[$i] < 0 ) {
+                if ( strlen($descriptions[$i]) > 0 ) {
+                    if ( $ids[$i] >= 0 ) {
+                        //Update Citation
+                        $citation = Citation::find($ids[$i]);
+
+                        $citation->description = $descriptions[$i];
+
+                        $research->citations()->save($citation);
+                    } else {
+                        //Create new Citation
+                        $citation = new Citation;
+
+                        $citation->description = $descriptions[$i];
+
+                        if ( $types[$i] === 'file' ) {
+                            $files[$i]->store('researches/'.$research->id.'/files');
+                            $path = 'researches/'.$research->id.'/files/'.$files[$i]->hashName();
+                            $citation->link = Storage::disk('local')->url($path);
+                        } else {
+                            $citation->link = ( stristr($links[$i], 'http://') || (stristr($links[$i], 'https://')) ) ? $links[$i] : 'http://'.$links[$i];
+                        }
+
+                        $research->citations()->save($citation);
+                    }
+                }
+            } elseif ( $ids[$i] >= 0 ) {
+                //Delete goal
+                Citation::find($ids[$i])->delete();
             }
         }
 

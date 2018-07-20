@@ -7,7 +7,7 @@
 	
 	<ul class="nav nav-tabs" id="rpm-research-tab" role="tablist">
 		<li class="nav-item">
-			<a href="#general-info" class="nav-link active" id="general-info-tab" data-toggle="tab">Información General</a>
+			<a href="#general-info" class="nav-link active" id="general-info-tab" data-toggle="tab">General</a>
 		</li>
 		<li class="nav-item">
 			<a href="#requirements" class="nav-link" id="requirements-tab" data-toggle="tab">Requisitos</a>
@@ -20,6 +20,9 @@
 		</li>
 		<li class="nav-item">
 			<a href="#gallery" class="nav-link" id="gallery-tab" data-toggle="tab">Galería</a>
+		</li>
+		<li class="nav-item">
+			<a href="#citations" class="nav-link" id="citations-tab" data-toggle="tab">Referencias</a>
 		</li>
 	</ul>
 
@@ -210,6 +213,53 @@
 					<small id="gallery-help" class="form-text text-muted">Agrega imágenes para la galería del proyecto.</small>
 				</div>
 
+			</fieldset>
+		</div>
+		<div class="tab-pane fade rpm-citations-tab" id="citations" role="tabpanel">
+			<fieldset>
+				<legend>Referencias</legend>
+				@foreach ( $research->citations as $citation )
+					<div class="form-inline rpm-dynamic-list-item" rpm-dynamic-list-prefix="citation">
+						<input class="delete" type="hidden" name="citation_delete[]" value="-1">
+						<input class="id" type="hidden" name="citation_id[]" value="{{ $citation->id }}">
+						<div class="form-group col-md-6">
+							<textarea name="citation_description[]" class="form-control" cols="30" rows="3" placeholder="Descripción">{{ $citation->description }}</textarea>
+						</div>
+						<input type="hidden" name="citation_type[]" value="-1">
+						<input type="hidden" name="citation_link[]" value="-1">
+						<input type="file" name="citation_file[]" style="display: none;">
+						<div class="col-md-5">
+							<a href="{{ $citation->link}}" target="_blank">Ver referencia</a>
+						</div>
+						<div class="form-group col-md-1">
+							<input class="btn btn-primary minus" type="button" value="-">
+						</div>
+					</div>
+				@endforeach
+				<div class="form-inline rpm-dynamic-list-item" rpm-dynamic-list-prefix="citation">
+					<input class="delete" type="hidden" name="citation_delete[]" value="-1">
+					<input class="id" type="hidden" name="citation_id[]" value="-1">
+					<div class="form-group col-md-4">
+						<textarea name="citation_description[]" class="form-control" cols="30" rows="3" placeholder="Descripción"></textarea>
+					</div>
+					<div class="form-group col-md-3 type">
+						<p>
+							Tipo:
+							<select name="citation_type[]">
+								<option>Selecione...</option>
+								<option value="link">Link</option>
+								<option value="file">Archivo</option>
+							</select>
+						</p>
+					</div>
+					<div class="form-group col-md-4">
+						<input type="text" class="rpm-citation-link" name="citation_link[]" placeholder="http://google.com">
+						<input type="file" class="rpm-citation-file form-control-file" name="citation_file[]" multiple>
+					</div>
+					<div class="form-group col-md-1">
+						<input class="btn btn-primary plus" type="button" value="+">
+					</div>
+				</div>
 			</fieldset>
 		</div>
 	</div>

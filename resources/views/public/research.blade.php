@@ -126,6 +126,19 @@
 			</div>
 		@endforeach
 	</div>
+
+	@if ( $research->citations->count() > 0 )
+	<div class="row">
+		<div class="col">
+			<h2>Referencias</h2>
+			<ul>
+				@foreach ( $research->citations as $citation )
+					<li>{{ $citation->description }} <a href="{{ $citation->link }}">{{ $citation->link }}</a></li>
+				@endforeach
+			</ul>
+		</div>
+	</div>
+	@endif
 	
 	@if ( $research->extra_info )
 	<div class="row">
